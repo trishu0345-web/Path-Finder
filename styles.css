@@ -31,13 +31,19 @@ body {
 }
 
 .section {
-  max-width: 98vw;
-  margin: 32px auto 80px auto;
+  max-width: 1100px;
+  margin: 40px auto 80px auto;
   background: rgba(255, 255, 255, 0.97);
   border-radius: 22px;
   box-shadow: 0 8px 36px rgba(60, 60, 60, 0.18);
-  padding: 50px 40px 44px 40px;
-  text-align: left;
+  padding: 50px 44px 44px 44px;
+  text-align: center;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section h1, .section h2 {
@@ -86,7 +92,7 @@ button:hover {
   transform: scale(1.07);
 }
 
-#algo-output, #path-output {
+#algo-output, #path-output, #bfs-output, #dfs-output {
   margin-top: 14px;
   font-size: 1.18em;
   color: #313;
@@ -96,4 +102,6 @@ button:hover {
 ul, ol {
   font-size: 1.09em;
   margin-left: 22px;
+  text-align: left;
+  display: inline-block;
 }

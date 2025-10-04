@@ -15,108 +15,120 @@
   </nav>
   <div class="section" id="intro">
     <h1><b>GRAPHS: THE BASICS</b></h1>
-    <p>
-      <b>What is a graph?</b><br>
-      A <b>graph</b> is a way to represent connections between things. Each item is a <b>node</b> (or vertex), and each connection is called an <b>edge</b>.<br><br>
-      <b>Real-life examples:</b>
-      <ul>
-        <li>Social networks (people as nodes, friendships as edges)</li>
-        <li>Maps (places as nodes, roads as edges)</li>
-        <li>Internet (computers as nodes, cables as edges)</li>
-      </ul>
-      <b>Types of graphs:</b>
-      <ul>
-        <li><b>Undirected:</b> Connections go both ways (like a two-way street)</li>
-        <li><b>Directed:</b> Connections have a direction (like a one-way street)</li>
-        <li><b>Weighted:</b> Edges have a value (like road distance)</li>
-        <li><b>Unweighted:</b> All connections are equal</li>
-      </ul>
-    </p>
-    <canvas id="graph-canvas-intro" width="400" height="200"></canvas>
-    <p>
-      <i>This is a simple undirected, unweighted graph. Each circle is a node, and each line is an edge.</i>
-    </p>
+    <div class="centered">
+      <p>
+        <b>What is a graph?</b><br>
+        A <b>graph</b> is a way to represent connections between things. Each item is a <b>node</b> (or vertex), and each connection is called an <b>edge</b>.<br><br>
+        <b>Real-life examples:</b>
+        <ul>
+          <li>Social networks (people as nodes, friendships as edges)</li>
+          <li>Maps (places as nodes, roads as edges)</li>
+          <li>Internet (computers as nodes, cables as edges)</li>
+        </ul>
+        <b>Types of graphs:</b>
+        <ul>
+          <li><b>Undirected:</b> Connections go both ways (like a two-way street)</li>
+          <li><b>Directed:</b> Connections have a direction (like a one-way street)</li>
+          <li><b>Weighted:</b> Edges have a value (like road distance)</li>
+          <li><b>Unweighted:</b> All connections are equal</li>
+        </ul>
+      </p>
+      <!-- Increased canvas height for intro graph -->
+      <canvas id="graph-canvas-intro" width="500" height="300"></canvas>
+      <p style="font-style:italic;">
+        This is a simple undirected, unweighted graph. Each circle is a node, and each line is an edge.
+      </p>
+    </div>
   </div>
 
   <div class="section" id="algorithms">
     <h1><b>GRAPH ALGORITHMS: BFS & DFS</b></h1>
-    <h2><b>BREADTH-FIRST SEARCH (BFS)</b></h2>
-    <p>
-      <b>BFS</b> is like exploring a maze layer by layer. Imagine you are at node "A" and want to visit every place you can reach, moving outward step by step.
-      <br><br>
-      <b>How BFS works:</b>
-      <ol>
-        <li>Start at the chosen node (e.g., A)</li>
-        <li>Visit all direct neighbors</li>
-        <li>Then visit neighbors of those neighbors</li>
-        <li>Continue until all nodes are visited</li>
-      </ol>
-      <b>Uses:</b> Finding the shortest path in unweighted graphs, social networks, maps.
-      <br>
-      <button onclick="runBFS()">Run BFS Demo</button>
-    </p>
-    <h2><b>DEPTH-FIRST SEARCH (DFS)</b></h2>
-    <p>
-      <b>DFS</b> is like exploring as far as you can go down one path before backtracking.
-      <br><br>
-      <b>How DFS works:</b>
-      <ol>
-        <li>Start at the chosen node</li>
-        <li>Go to one neighbor, then its neighbor, as deep as you can</li>
-        <li>If you reach a dead end, back up and try the next path</li>
-        <li>Continue until all nodes are visited</li>
-      </ol>
-      <b>Uses:</b> Solving puzzles, analyzing networks, finding connected components.
-      <br>
-      <button onclick="runDFS()">Run DFS Demo</button>
-    </p>
-    <canvas id="graph-canvas-algo" width="400" height="300"></canvas>
-    <div id="algo-output"></div>
+    <div class="centered">
+      <h2><b>BREADTH-FIRST SEARCH (BFS)</b></h2>
+      <p>
+        <b>BFS</b> is like exploring a maze layer by layer. Imagine you are at node "A" and want to visit every place you can reach, moving outward step by step.
+        <br><br>
+        <b>How BFS works:</b>
+        <ol>
+          <li>Start at the chosen node (e.g., A)</li>
+          <li>Visit all direct neighbors</li>
+          <li>Then visit neighbors of those neighbors</li>
+          <li>Continue until all nodes are visited</li>
+        </ol>
+        <b>Uses:</b> Finding the shortest path in unweighted graphs, social networks, maps.
+        <br>
+        <button onclick="runBFS()">Run BFS Demo</button>
+      </p>
+      <!-- Dedicated canvas for BFS animation -->
+      <canvas id="graph-canvas-bfs" width="500" height="300"></canvas>
+      <div id="bfs-output"></div>
+      <h2><b>DEPTH-FIRST SEARCH (DFS)</b></h2>
+      <p>
+        <b>DFS</b> is like exploring as far as you can go down one path before backtracking.
+        <br><br>
+        <b>How DFS works:</b>
+        <ol>
+          <li>Start at the chosen node</li>
+          <li>Go to one neighbor, then its neighbor, as deep as you can</li>
+          <li>If you reach a dead end, back up and try the next path</li>
+          <li>Continue until all nodes are visited</li>
+        </ol>
+        <b>Uses:</b> Solving puzzles, analyzing networks, finding connected components.
+        <br>
+        <button onclick="runDFS()">Run DFS Demo</button>
+      </p>
+      <!-- Dedicated canvas for DFS animation -->
+      <canvas id="graph-canvas-dfs" width="500" height="300"></canvas>
+      <div id="dfs-output"></div>
+    </div>
   </div>
 
   <div class="section" id="shortest-path">
     <h1><b>SHORTEST PATH IN GRAPHS</b></h1>
-    <p>
-      <b>What is the shortest path?</b><br>
-      The shortest path between two nodes is the path with the fewest edges (or lowest total weight in weighted graphs).
-      <br><br>
-      <b>How do we find it?</b><br>
-      For unweighted graphs, <b>Breadth-First Search (BFS)</b> is the simplest way to find the shortest path.
-      <br><br>
-      <b>Step-by-step:</b>
-      <ol>
-        <li>Start at the source node</li>
-        <li>Explore neighbors layer by layer</li>
-        <li>Track how you got to each node</li>
-        <li>Once you reach the target node, trace back your steps</li>
-      </ol>
-      <button onclick="runShortestPath()">Show Shortest Path (A to F)</button>
-    </p>
-    <canvas id="graph-canvas-path" width="400" height="300"></canvas>
-    <div id="path-output"></div>
-    <hr>
-    <h2><b>SUMMARY & KEY POINTS</b></h2>
-    <ul>
-      <li>Graphs help model connections in the real world</li>
-      <li>BFS explores layer by layer, DFS goes deep before backtracking</li>
-      <li>BFS is best for shortest path in unweighted graphs</li>
-      <li>Visualizing algorithms helps understand how they work</li>
-    </ul>
+    <div class="centered">
+      <p>
+        <b>What is the shortest path?</b><br>
+        The shortest path between two nodes is the path with the fewest edges (or lowest total weight in weighted graphs).
+        <br><br>
+        <b>How do we find it?</b><br>
+        For unweighted graphs, <b>Breadth-First Search (BFS)</b> is the simplest way to find the shortest path.
+        <br><br>
+        <b>Step-by-step:</b>
+        <ol>
+          <li>Start at the source node</li>
+          <li>Explore neighbors layer by layer</li>
+          <li>Track how you got to each node</li>
+          <li>Once you reach the target node, trace back your steps</li>
+        </ol>
+        <button onclick="runShortestPath()">Show Shortest Path (A to F)</button>
+      </p>
+      <!-- Dedicated canvas for shortest path animation -->
+      <canvas id="graph-canvas-path" width="500" height="300"></canvas>
+      <div id="path-output"></div>
+      <hr>
+      <h2><b>SUMMARY & KEY POINTS</b></h2>
+      <ul>
+        <li>Graphs help model connections in the real world</li>
+        <li>BFS explores layer by layer, DFS goes deep before backtracking</li>
+        <li>BFS is best for shortest path in unweighted graphs</li>
+        <li>Visualizing algorithms helps understand how they work</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- Easy-to-understand JavaScript with comments -->
+  <!-- Centered and easy-to-understand JavaScript with comments -->
   <script>
     // ---------------------------
     // Graph Data for all sections
     // ---------------------------
     // 6 nodes, undirected, unweighted. Labels: A-F
     const nodes = [
-      {x: 80, y: 80, label: 'A'},
-      {x: 320, y: 80, label: 'B'},
-      {x: 200, y: 40, label: 'C'},
-      {x: 200, y: 180, label: 'D'},
-      {x: 80, y: 220, label: 'E'},
-      {x: 320, y: 220, label: 'F'}
+      {x: 120, y: 100, label: 'A'},
+      {x: 380, y: 100, label: 'B'},
+      {x: 250, y: 50, label: 'C'},
+      {x: 250, y: 200, label: 'D'},
+      {x: 120, y: 260, label: 'E'},
+      {x: 380, y: 260, label: 'F'}
     ];
     // Edges connect pairs of node indices
     const edges = [
@@ -161,7 +173,8 @@
     // Draw static graphs on each section at page load
     window.onload = function() {
       drawGraph('graph-canvas-intro');
-      drawGraph('graph-canvas-algo');
+      drawGraph('graph-canvas-bfs');
+      drawGraph('graph-canvas-dfs');
       drawGraph('graph-canvas-path');
     };
 
@@ -227,11 +240,6 @@
       return path;
     }
 
-    // Helper for node index by label
-    function labelToIndex(label) {
-      return nodes.findIndex(n => n.label === label);
-    }
-
     // Animation helpers
     async function animateOrder(canvasId, order) {
       for (let i = 0; i < order.length; i++) {
@@ -245,18 +253,18 @@
     // Button Actions
     // ---------------------------
     async function runBFS() {
-      document.getElementById('algo-output').innerText = 'Running BFS from A...';
+      document.getElementById('bfs-output').innerText = 'Running BFS from A...';
       const {order} = bfs(0); // Start at node A
-      await animateOrder('graph-canvas-algo', order);
-      document.getElementById('algo-output').innerText =
+      await animateOrder('graph-canvas-bfs', order);
+      document.getElementById('bfs-output').innerText =
         'BFS visit order: ' + order.map(i => nodes[i].label).join(' → ');
     }
 
     async function runDFS() {
-      document.getElementById('algo-output').innerText = 'Running DFS from A...';
+      document.getElementById('dfs-output').innerText = 'Running DFS from A...';
       const {order} = dfs(0); // Start at node A
-      await animateOrder('graph-canvas-algo', order);
-      document.getElementById('algo-output').innerText =
+      await animateOrder('graph-canvas-dfs', order);
+      document.getElementById('dfs-output').innerText =
         'DFS visit order: ' + order.map(i => nodes[i].label).join(' → ');
     }
 
