@@ -2,45 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Path Finder Visualization</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Path Finder & Graph Algorithms Visualizer</title>
-  <link rel="stylesheet" href="styles.css">
   <style>
+    body { background:#e2fdce; margin:0; font-family:Segoe UI,sans-serif; }
+    .centered { text-align:center; }
     canvas {
       background: #fff;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 2px 10px rgba(67,198,172,0.07);
-      margin-bottom: 10px;
+      margin: 20px auto 10px auto;
       display: block;
-      margin-left: auto;
-      margin-right: auto;
     }
+    button {
+      background: linear-gradient(90deg,#43c6ac 0%,#f8ffae 100%);
+      border: none;
+      padding: 12px 32px;
+      border-radius: 8px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #222;
+      margin: 12px 0;
+      cursor: pointer;
+      box-shadow:0 2px 6px #0001;
+    }
+    button:hover { opacity: 0.85; }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#algorithms"><b>GRAPH ALGORITHMS</b></a>
-    <a href="#shortest-path"><b>SHORTEST PATH</b></a>
-    <a href="#dijkstra"><b>DIJKSTRA'S ALGORITHM</b></a>
-    <a href="#flowcharts"><b>FLOWCHARTS</b></a>
-  </nav>
-
-  <div class="section" id="algorithms">
-    <h1>GRAPH ALGORITHMS</h1>
+  <div class="centered" style="margin-top:36px;">
+    <h1>Breadth-First Search (BFS)</h1>
     <button onclick="runBFS()">RUN DEMO (BFS)</button>
     <canvas id="graph-canvas-bfs" width="500" height="260"></canvas>
     <div id="bfs-output"></div>
+
+    <h1>Depth-First Search (DFS)</h1>
     <button onclick="runDFS()">RUN DEMO (DFS)</button>
     <canvas id="graph-canvas-dfs" width="500" height="260"></canvas>
     <div id="dfs-output"></div>
-  </div>
-  <div class="section" id="shortest-path">
-    <h1>SHORTEST PATH IN GRAPHS</h1>
+
+    <h1>Shortest Path</h1>
     <button onclick="runShortestPath()">RUN DEMO (Shortest Path)</button>
     <canvas id="graph-canvas-path" width="500" height="260"></canvas>
     <div id="path-output"></div>
-  </div>
-  <div class="section" id="dijkstra">
+
     <h1>Dijkstra's Algorithm</h1>
     <button onclick="runDijkstra()">RUN DEMO (Dijkstra's)</button>
     <canvas id="graph-canvas-dijkstra" width="500" height="260"></canvas>
