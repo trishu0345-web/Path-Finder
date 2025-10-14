@@ -51,7 +51,6 @@ function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
   });
 }
 
-// --- BFS Demo ---
 function runBFS() {
   let visited = Array(nodes.length).fill(false);
   let queue = [0], order = [], traversedEdges = [];
@@ -71,7 +70,6 @@ function runBFS() {
   document.getElementById("bfs-output").innerText = "BFS Order: " + order.join(" → ");
 }
 
-// --- DFS Demo ---
 function runDFS() {
   let visited = Array(nodes.length).fill(false), order = [], traversedEdges = [];
   function dfs(node) {
@@ -89,7 +87,6 @@ function runDFS() {
   document.getElementById("dfs-output").innerText = "DFS Order: " + order.join(" → ");
 }
 
-// --- Shortest Path Demo (from 0 to 7) ---
 function runShortestPath() {
   let start = 0, end = 7;
   let visited = Array(nodes.length).fill(false), prev = Array(nodes.length).fill(-1);
@@ -115,7 +112,6 @@ function runShortestPath() {
   document.getElementById("path-output").innerText = "Shortest Path: " + path.join(" → ");
 }
 
-// --- Draw graphs on load ---
 window.addEventListener('DOMContentLoaded', function () {
   drawGraph("graph-canvas-bfs");
   drawGraph("graph-canvas-dfs");
