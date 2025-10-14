@@ -74,4 +74,39 @@ public class GraphAlgorithms {
             return path;
         return Collections.emptyList(); // No path found
     }
+
+    // Dijkstra's Algorithm for weighted graphs
+    public static List<Integer> dijkstra(int[][] graph, int[][] weights, int start, int end) {
+        int n = graph.length;
+        int[] dist = new int[n];
+        int[] prev = new int[n];
+        boolean[] visited = new boolean[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        Arrays.fill(prev, -1);
+        dist[start] = 0;
+        for (int count = 0; count < n; count++) {
+            int u = -1;
+            for (int i = 0; i < n; i++) {
+                if (!visited[i] && (u == -1 || dist[i] < dist[u])) u = i;
+            }
+            if (dist[u] == Integer.MAX_VALUE) break;
+            visited[u] = true;
+            for (int v = 0; v < n; v++) {
+                if (graph[u][v] != 0 && !visited[v]) {
+                    int alt = dist[u] + weights[u][v];
+                    if (alt < dist[v]) {
+                        dist[v] = alt;
+                        prev[v] = u;
+                    }
+                }
+            }
+        }
+        // Reconstruct path
+        List<Integer> path = new ArrayList<>();
+        for (int at = end; at != -1; at = prev[at]) path.add(at);
+        Collections.reverse(path);
+        if (path.get(0) == start)
+            return path;
+        return Collections.emptyList();
+    }
 }
