@@ -1,77 +1,42 @@
 body {
+  background: linear-gradient(120deg, #f8ffae 0%, #43c6ac 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #f8ffae 0%, #43c6ac 100%);
-  min-height: 100vh;
 }
-
 .navbar {
-  position: sticky;
-  top: 0;
-  background: rgba(255,255,255,0.98);
-  box-shadow: 0 2px 12px rgba(67, 198, 172, 0.12);
-  padding: 18px 0 10px 0;
-  text-align: center;
-  z-index: 10;
+  background: #222;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 18px 0;
+  box-shadow: 0 2px 12px rgba(67,198,172,0.11);
 }
-
 .navbar a {
-  margin: 0 32px;
-  color: #009688;
-  font-weight: bold;
-  font-size: 1.25em;
+  color: #f8ffae;
+  font-size: 1.18em;
   text-decoration: none;
-  transition: color 0.2s;
-  letter-spacing: 1.5px;
+  padding: 8px 18px;
+  border-radius: 7px;
+  transition: background 0.25s;
 }
 .navbar a:hover {
-  color: #43c6ac;
-  text-decoration: underline;
+  background: #43c6ac;
+  color: #222;
 }
-
 .section {
-  max-width: 1100px;
-  margin: 40px auto 80px auto;
-  background: rgba(255, 255, 255, 0.97);
-  border-radius: 22px;
-  box-shadow: 0 8px 36px rgba(60, 60, 60, 0.18);
-  padding: 50px 44px 44px 44px;
-  text-align: center;
+  background: rgba(255,255,255,0.92);
+  margin: 36px auto;
+  padding: 38px 32px;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(67,198,172,0.13);
+  max-width: 900px;
 }
-
 .centered {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
-.section h1, .section h2 {
-  color: #43c6ac;
-  font-weight: bold;
-  letter-spacing: 2px;
-  margin-bottom: 18px;
-  text-transform: uppercase;
-}
-
-.section h1 {
-  font-size: 2.6em;
-}
-
-.section h2 {
-  font-size: 2em;
-  color: #009688;
-  margin-top: 34px;
-}
-
-canvas {
-  margin: 28px auto 12px auto;
-  display: block;
-  background: #eafaf1;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(67,198,172,0.07);
-}
-
 button {
   background: linear-gradient(90deg, #43c6ac 0%, #f8ffae 100%);
   border: none;
@@ -86,22 +51,32 @@ button {
   transition: background 0.3s, transform 0.15s;
   letter-spacing: 1px;
 }
-
 button:hover {
   background: linear-gradient(90deg, #f8ffae 0%, #43c6ac 100%);
   transform: scale(1.07);
 }
-
-#algo-output, #path-output, #bfs-output, #dfs-output {
+canvas, svg {
+  margin: 18px 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(67,198,172,0.07);
+}
+#algo-output, #path-output, #bfs-output, #dfs-output, #dijkstra-output {
   margin-top: 14px;
   font-size: 1.18em;
-  color: #313;
-  min-height: 34px;
+  color: #222;
+  font-weight: 500;
 }
-
-ul, ol {
-  font-size: 1.09em;
-  margin-left: 22px;
-  text-align: left;
-  display: inline-block;
+pre {
+  background: #f8ffae;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1em;
+  overflow-x: auto;
+  color: #222;
+  margin: 16px 0;
+}
+footer {
+  font-size: 1em;
+  color: #888;
 }
