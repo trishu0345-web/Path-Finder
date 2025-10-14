@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    canvas {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(67,198,172,0.07);
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
   <header class="bg-gradient-primary text-white text-center py-5 shadow">
@@ -34,31 +42,9 @@
         <div class="card shadow h-100">
           <div class="card-body">
             <h2 id="bfs" class="card-title text-gradient">Breadth-First Search (BFS)</h2>
-            <p>
-              Breadth-First Search (BFS) is a cornerstone algorithm in graph theory, designed to traverse or search tree or graph data structures. It explores nodes in a level-order fashion, ensuring that all nodes at the current depth are visited before any nodes at the next depth level. BFS begins at a selected source node and explores all its immediate neighbors first, then moves to the neighbors' neighbors, and so on, using a queue to remember the order of visitation.<br><br>
-              <strong>How It Works:</strong> The algorithm initializes a queue and marks the start node as visited. It systematically dequeues a node, processes it, and enqueues all its adjacent, unvisited nodes. This process continues until all reachable nodes have been visited.<br><br>
-              <strong>Applications:</strong> BFS is invaluable for finding the shortest path in unweighted graphs, peer-to-peer networking, web crawling, and even AI for puzzle solutions. It is used in GPS navigation to determine the shortest route, in social networks to find users within a certain distance, and in countless other real-world scenarios.<br><br>
-              <strong>Pseudocode:</strong>
-              <pre>
-function BFS(graph, start):
-    let queue = empty queue
-    mark start as visited
-    queue.enqueue(start)
-    while queue is not empty:
-        node = queue.dequeue()
-        process(node)
-        for each neighbor of node:
-            if neighbor is not visited:
-                mark neighbor as visited
-                queue.enqueue(neighbor)
-              </pre>
-              <strong>Key Points:</strong>
-              <ul>
-                <li>Guarantees the shortest path in an unweighted graph.</li>
-                <li>Uses a FIFO queue for tracking traversal order.</li>
-                <li>Time complexity: O(V + E), where V is vertices, E is edges.</li>
-              </ul>
-            </p>
+            <button class="btn btn-success mb-2" onclick="runBFS()">RUN DEMO (BFS)</button>
+            <canvas id="graph-canvas-bfs" width="400" height="340"></canvas>
+            <div id="bfs-output" class="mt-2"></div>
           </div>
         </div>
       </div>
@@ -66,26 +52,9 @@ function BFS(graph, start):
         <div class="card shadow h-100">
           <div class="card-body">
             <h2 id="dfs" class="card-title text-gradient">Depth-First Search (DFS)</h2>
-            <p>
-              Depth-First Search (DFS) is a foundational algorithm for traversing or searching tree or graph structures. In contrast to BFS, DFS explores as far as possible along each branch before backtracking, diving deep into the graph. This method uses a stack (either via recursion or an explicit stack structure) to keep track of the path.<br><br>
-              <strong>How It Works:</strong> DFS begins at a root node, marks it as visited, and then recursively visits each unvisited neighbor. If it reaches a node with no unvisited neighbors, it backtracks to the previous node and continues.<br><br>
-              <strong>Applications:</strong> DFS is commonly used in topological sorting, cycle detection, pathfinding in mazes, and solving puzzles like Sudoku. It’s also useful in analyzing network connectivity and in compilers for syntax analysis.<br><br>
-              <strong>Pseudocode:</strong>
-              <pre>
-function DFS(graph, node, visited):
-    mark node as visited
-    process(node)
-    for each neighbor of node:
-        if neighbor is not visited:
-            DFS(graph, neighbor, visited)
-              </pre>
-              <strong>Key Points:</strong>
-              <ul>
-                <li>May not give shortest path but is memory efficient for deep graphs.</li>
-                <li>Can be implemented recursively or with an explicit stack.</li>
-                <li>Time complexity: O(V + E).</li>
-              </ul>
-            </p>
+            <button class="btn btn-success mb-2" onclick="runDFS()">RUN DEMO (DFS)</button>
+            <canvas id="graph-canvas-dfs" width="400" height="340"></canvas>
+            <div id="dfs-output" class="mt-2"></div>
           </div>
         </div>
       </div>
@@ -93,53 +62,141 @@ function DFS(graph, node, visited):
         <div class="card shadow h-100">
           <div class="card-body">
             <h2 id="shortest" class="card-title text-gradient">Shortest Path (Unweighted Graphs)</h2>
-            <p>
-              The Shortest Path algorithm seeks to find the minimum number of steps required to get from a source node to a destination in a graph. In unweighted graphs, BFS is the optimal approach, as it explores all nodes at a given depth before moving deeper, ensuring the shortest path is found.<br><br>
-              <strong>How It Works:</strong> BFS is initiated from the source node, and each visited node is tracked with its predecessor. Once the destination node is found, the path is reconstructed by backtracking through the predecessor mapping.<br><br>
-              <strong>Applications:</strong> Shortest path algorithms are essential in map routing, network broadcasting, robot navigation, and emergency evacuation planning. They form the backbone of navigation systems like Google Maps, helping users reach destinations via the quickest route.<br><br>
-              <strong>Pseudocode:</strong>
-              <pre>
-function ShortestPath(graph, start, end):
-    let queue = empty queue
-    let visited = array of false
-    let prev = array of -1
-    mark start as visited
-    queue.enqueue(start)
-    while queue is not empty:
-        node = queue.dequeue()
-        if node == end:
-            break
-        for each neighbor of node:
-            if neighbor is not visited:
-                mark neighbor as visited
-                prev[neighbor] = node
-                queue.enqueue(neighbor)
-    reconstruct path from end to start using prev array
-              </pre>
-              <strong>Key Points:</strong>
-              <ul>
-                <li>Ideal for unweighted graphs; finds the shortest path efficiently.</li>
-                <li>Used in many real-world pathfinding and routing applications.</li>
-                <li>Time complexity: O(V + E).</li>
-              </ul>
-            </p>
+            <button class="btn btn-success mb-2" onclick="runShortestPath()">RUN DEMO (Shortest Path)</button>
+            <canvas id="graph-canvas-path" width="400" height="340"></canvas>
+            <div id="path-output" class="mt-2"></div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Interactive Section (Optional) -->
-    <section class="mt-5">
-      <div class="card shadow">
-        <div class="card-body">
-          <h3 class="card-title">Try the Algorithms!</h3>
-          <p>Enter your graph adjacency matrix and try BFS, DFS, or Shortest Path interactively (via backend Java APIs).</p>
-          <!-- Add your interactive JS and HTML here -->
-        </div>
-      </div>
-    </section>
   </main>
   <footer class="text-center mt-5 mb-3 text-secondary">&copy; 2025 Path Finder. All rights reserved.</footer>
+  <script>
+    // --- Tree-like graph for BFS/DFS/Shortest Path demos ---
+    const nodes = [0, 1, 2, 3, 4, 5, 6, 7];
+    const edges = [
+      [0, 1], [0, 2], [0, 3],
+      [1, 4], [1, 5],
+      [2, 6],
+      [3, 7]
+    ];
+    // Tree layout coordinates for each node
+    const positions = [
+      {x: 200, y: 50},   // 0 (root)
+      {x: 80, y: 130},   // 1
+      {x: 200, y: 130},  // 2
+      {x: 320, y: 130},  // 3
+      {x: 40, y: 230},   // 4
+      {x: 120, y: 230},  // 5
+      {x: 200, y: 230},  // 6
+      {x: 320, y: 230}   // 7
+    ];
+
+    // Draw the tree graph on a canvas, highlight nodes and edges if provided
+    function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw edges
+      edges.forEach(([a, b]) => {
+        ctx.beginPath();
+        ctx.moveTo(positions[a].x, positions[a].y);
+        ctx.lineTo(positions[b].x, positions[b].y);
+        ctx.strokeStyle = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? "#e67e22" : "#888";
+        ctx.lineWidth = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? 5 : 2;
+        ctx.stroke();
+      });
+
+      // Draw nodes
+      nodes.forEach((node, i) => {
+        ctx.beginPath();
+        ctx.arc(positions[i].x, positions[i].y, 22, 0, 2 * Math.PI);
+        ctx.fillStyle = highlightNodes.includes(i) ? "#43c6ac" : "#fff";
+        ctx.strokeStyle = highlightNodes.includes(i) ? "#e67e22" : "#333";
+        ctx.lineWidth = highlightNodes.includes(i) ? 5 : 2;
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = "#222";
+        ctx.font = "bold 18px Segoe UI";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(node, positions[i].x, positions[i].y);
+      });
+    }
+
+    // --- BFS Demo ---
+    function runBFS() {
+      let visited = Array(nodes.length).fill(false);
+      let queue = [0], order = [], traversedEdges = [];
+      visited[0] = true;
+      while (queue.length > 0) {
+        let node = queue.shift();
+        order.push(node);
+        edges.forEach(([a, b]) => {
+          if (a === node && !visited[b]) {
+            queue.push(b);
+            visited[b] = true;
+            traversedEdges.push([a, b]);
+          }
+        });
+      }
+      drawGraph("graph-canvas-bfs", order, traversedEdges);
+      document.getElementById("bfs-output").innerText = "BFS Order: " + order.join(" → ");
+    }
+
+    // --- DFS Demo ---
+    function runDFS() {
+      let visited = Array(nodes.length).fill(false), order = [], traversedEdges = [];
+      function dfs(node) {
+        visited[node] = true;
+        order.push(node);
+        edges.forEach(([a, b]) => {
+          if (a === node && !visited[b]) {
+            traversedEdges.push([a, b]);
+            dfs(b);
+          }
+        });
+      }
+      dfs(0);
+      drawGraph("graph-canvas-dfs", order, traversedEdges);
+      document.getElementById("dfs-output").innerText = "DFS Order: " + order.join(" → ");
+    }
+
+    // --- Shortest Path Demo (from 0 to 7) ---
+    function runShortestPath() {
+      let start = 0, end = 7;
+      let visited = Array(nodes.length).fill(false), prev = Array(nodes.length).fill(-1);
+      let queue = [start];
+      visited[start] = true;
+      while (queue.length > 0) {
+        let node = queue.shift();
+        if (node === end) break;
+        edges.forEach(([a, b]) => {
+          if (a === node && !visited[b]) {
+            queue.push(b);
+            visited[b] = true;
+            prev[b] = node;
+          }
+        });
+      }
+      let path = [];
+      for (let at = end; at !== -1; at = prev[at]) path.push(at);
+      path.reverse();
+      let pathEdges = [];
+      for (let i = 0; i < path.length - 1; ++i) pathEdges.push([path[i], path[i + 1]]);
+      drawGraph("graph-canvas-path", path, pathEdges);
+      document.getElementById("path-output").innerText = "Shortest Path: " + path.join(" → ");
+    }
+
+    // Always show graphs on page load
+    window.onload = function () {
+      drawGraph("graph-canvas-bfs");
+      drawGraph("graph-canvas-dfs");
+      drawGraph("graph-canvas-path");
+    };
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
