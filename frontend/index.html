@@ -1,46 +1,145 @@
-<div class="section" id="flowcharts">
-  <h1><b>Algorithm Flowchart Comparison</b></h1>
-  <div class="flowchart-flex">
-    <div class="flowchart-card">
-      <svg width="350" height="120">
-        <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
-        <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
-        <rect x="130" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
-        <text x="175" y="67" text-anchor="middle" font-size="18" fill="#222">BFS Layer</text>
-        <rect x="240" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
-        <text x="285" y="67" text-anchor="middle" font-size="18" fill="#222">Next Layer</text>
-        <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
-        <line x1="220" y1="60" x2="240" y2="60" stroke="#222" stroke-width="3"/>
-      </svg>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Path Finder Visualization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <header class="bg-gradient-primary text-white text-center py-5 shadow">
+    <h1 class="display-4 fw-bold">Path Finder Visualization</h1>
+    <p class="lead">Explore graph algorithms interactively with an elegant, premium interface.</p>
+  </header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+    <div class="container">
+      <a class="navbar-brand" href="#">Path Finder</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#bfs">BFS</a></li>
+          <li class="nav-item"><a class="nav-link" href="#dfs">DFS</a></li>
+          <li class="nav-item"><a class="nav-link" href="#shortest">Shortest Path</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="flowchart-card">
-      <svg width="350" height="120">
-        <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
-        <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
-        <rect x="130" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
-        <text x="175" y="67" text-anchor="middle" font-size="18" fill="#222">DFS Branch</text>
-        <rect x="240" y="10" width="90" height="40" rx="15" fill="#f8ffae"/>
-        <text x="285" y="37" text-anchor="middle" font-size="18" fill="#222">Backtrack</text>
-        <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
-        <line x1="220" y1="60" x2="240" y2="30" stroke="#222" stroke-width="3"/>
-      </svg>
+  </nav>
+
+  <main class="container my-5">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="card shadow h-100">
+          <div class="card-body">
+            <h2 id="bfs" class="card-title text-gradient">Breadth-First Search (BFS)</h2>
+            <p>
+              Breadth-First Search (BFS) is a cornerstone algorithm in graph theory, designed to traverse or search tree or graph data structures. It explores nodes in a level-order fashion, ensuring that all nodes at the current depth are visited before any nodes at the next depth level. BFS begins at a selected source node and explores all its immediate neighbors first, then moves to the neighbors' neighbors, and so on, using a queue to remember the order of visitation.<br><br>
+              <strong>How It Works:</strong> The algorithm initializes a queue and marks the start node as visited. It systematically dequeues a node, processes it, and enqueues all its adjacent, unvisited nodes. This process continues until all reachable nodes have been visited.<br><br>
+              <strong>Applications:</strong> BFS is invaluable for finding the shortest path in unweighted graphs, peer-to-peer networking, web crawling, and even AI for puzzle solutions. It is used in GPS navigation to determine the shortest route, in social networks to find users within a certain distance, and in countless other real-world scenarios.<br><br>
+              <strong>Pseudocode:</strong>
+              <pre>
+function BFS(graph, start):
+    let queue = empty queue
+    mark start as visited
+    queue.enqueue(start)
+    while queue is not empty:
+        node = queue.dequeue()
+        process(node)
+        for each neighbor of node:
+            if neighbor is not visited:
+                mark neighbor as visited
+                queue.enqueue(neighbor)
+              </pre>
+              <strong>Key Points:</strong>
+              <ul>
+                <li>Guarantees the shortest path in an unweighted graph.</li>
+                <li>Uses a FIFO queue for tracking traversal order.</li>
+                <li>Time complexity: O(V + E), where V is vertices, E is edges.</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow h-100">
+          <div class="card-body">
+            <h2 id="dfs" class="card-title text-gradient">Depth-First Search (DFS)</h2>
+            <p>
+              Depth-First Search (DFS) is a foundational algorithm for traversing or searching tree or graph structures. In contrast to BFS, DFS explores as far as possible along each branch before backtracking, diving deep into the graph. This method uses a stack (either via recursion or an explicit stack structure) to keep track of the path.<br><br>
+              <strong>How It Works:</strong> DFS begins at a root node, marks it as visited, and then recursively visits each unvisited neighbor. If it reaches a node with no unvisited neighbors, it backtracks to the previous node and continues.<br><br>
+              <strong>Applications:</strong> DFS is commonly used in topological sorting, cycle detection, pathfinding in mazes, and solving puzzles like Sudoku. It’s also useful in analyzing network connectivity and in compilers for syntax analysis.<br><br>
+              <strong>Pseudocode:</strong>
+              <pre>
+function DFS(graph, node, visited):
+    mark node as visited
+    process(node)
+    for each neighbor of node:
+        if neighbor is not visited:
+            DFS(graph, neighbor, visited)
+              </pre>
+              <strong>Key Points:</strong>
+              <ul>
+                <li>May not give shortest path but is memory efficient for deep graphs.</li>
+                <li>Can be implemented recursively or with an explicit stack.</li>
+                <li>Time complexity: O(V + E).</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow h-100">
+          <div class="card-body">
+            <h2 id="shortest" class="card-title text-gradient">Shortest Path (Unweighted Graphs)</h2>
+            <p>
+              The Shortest Path algorithm seeks to find the minimum number of steps required to get from a source node to a destination in a graph. In unweighted graphs, BFS is the optimal approach, as it explores all nodes at a given depth before moving deeper, ensuring the shortest path is found.<br><br>
+              <strong>How It Works:</strong> BFS is initiated from the source node, and each visited node is tracked with its predecessor. Once the destination node is found, the path is reconstructed by backtracking through the predecessor mapping.<br><br>
+              <strong>Applications:</strong> Shortest path algorithms are essential in map routing, network broadcasting, robot navigation, and emergency evacuation planning. They form the backbone of navigation systems like Google Maps, helping users reach destinations via the quickest route.<br><br>
+              <strong>Pseudocode:</strong>
+              <pre>
+function ShortestPath(graph, start, end):
+    let queue = empty queue
+    let visited = array of false
+    let prev = array of -1
+    mark start as visited
+    queue.enqueue(start)
+    while queue is not empty:
+        node = queue.dequeue()
+        if node == end:
+            break
+        for each neighbor of node:
+            if neighbor is not visited:
+                mark neighbor as visited
+                prev[neighbor] = node
+                queue.enqueue(neighbor)
+    reconstruct path from end to start using prev array
+              </pre>
+              <strong>Key Points:</strong>
+              <ul>
+                <li>Ideal for unweighted graphs; finds the shortest path efficiently.</li>
+                <li>Used in many real-world pathfinding and routing applications.</li>
+                <li>Time complexity: O(V + E).</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="flowchart-card">
-      <svg width="350" height="120">
-        <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
-        <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
-        <rect x="130" y="40" width="140" height="40" rx="15" fill="#f8ffae"/>
-        <text x="200" y="67" text-anchor="middle" font-size="18" fill="#222">Shortest Path</text>
-        <rect x="280" y="40" width="60" height="40" rx="15" fill="#f8ffae"/>
-        <text x="310" y="67" text-anchor="middle" font-size="18" fill="#222">End</text>
-        <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
-        <line x1="270" y1="60" x2="280" y2="60" stroke="#222" stroke-width="3"/>
-      </svg>
-    </div>
-  </div>
-  <p style="text-align:center;margin-top:1em;">
-    <b>BFS</b> explores layer by layer.<br>
-    <b>DFS</b> goes deep along a branch before backtracking.<br>
-    <b>Shortest Path</b> (BFS/Dijkstra) seeks the least-cost route from source to destination.<br>
-  </p>
-</div>
+
+    <!-- Interactive Section (Optional) -->
+    <section class="mt-5">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="card-title">Try the Algorithms!</h3>
+          <p>Enter your graph adjacency matrix and try BFS, DFS, or Shortest Path interactively (via backend Java APIs).</p>
+          <!-- Add your interactive JS and HTML here -->
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="text-center mt-5 mb-3 text-secondary">&copy; 2025 Path Finder. All rights reserved.</footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
