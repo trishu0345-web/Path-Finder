@@ -1,4 +1,4 @@
-// --- Tree-like graph for BFS/DFS/Shortest Path demos ---
+// --- MUST HAVE: Node and edge definitions matching a tree (like GeeksforGeeks demo) ---
 const nodes = [0, 1, 2, 3, 4, 5, 6, 7];
 const edges = [
   [0, 1], [0, 2], [0, 3],
@@ -6,7 +6,7 @@ const edges = [
   [2, 6],
   [3, 7]
 ];
-// Tree layout coordinates for each node
+// --- MUST HAVE: Coordinates for tree layout ---
 const positions = [
   {x: 200, y: 50},   // 0 (root)
   {x: 80, y: 130},   // 1
@@ -18,7 +18,7 @@ const positions = [
   {x: 320, y: 230}   // 7
 ];
 
-// Draw the tree graph on a canvas, highlight nodes and edges if provided
+// --- MUST HAVE: Draw graph function, highlights nodes and edges if needed ---
 function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
@@ -52,7 +52,7 @@ function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
   });
 }
 
-// --- BFS Demo ---
+// --- MUST HAVE: BFS Demo ---
 function runBFS() {
   let visited = Array(nodes.length).fill(false);
   let queue = [0], order = [], traversedEdges = [];
@@ -72,7 +72,7 @@ function runBFS() {
   document.getElementById("bfs-output").innerText = "BFS Order: " + order.join(" → ");
 }
 
-// --- DFS Demo ---
+// --- MUST HAVE: DFS Demo ---
 function runDFS() {
   let visited = Array(nodes.length).fill(false), order = [], traversedEdges = [];
   function dfs(node) {
@@ -90,7 +90,7 @@ function runDFS() {
   document.getElementById("dfs-output").innerText = "DFS Order: " + order.join(" → ");
 }
 
-// --- Shortest Path Demo (from 0 to 7) ---
+// --- MUST HAVE: Shortest Path Demo (from 0 to 7) ---
 function runShortestPath() {
   let start = 0, end = 7;
   let visited = Array(nodes.length).fill(false), prev = Array(nodes.length).fill(-1);
@@ -116,7 +116,7 @@ function runShortestPath() {
   document.getElementById("path-output").innerText = "Shortest Path: " + path.join(" → ");
 }
 
-// Always show graphs on page load
+// --- MUST HAVE: Draw all graphs on initial page load ---
 window.addEventListener('DOMContentLoaded', function () {
   drawGraph("graph-canvas-bfs");
   drawGraph("graph-canvas-dfs");
