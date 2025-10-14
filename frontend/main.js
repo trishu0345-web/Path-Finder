@@ -21,18 +21,16 @@ function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Draw edges
   edges.forEach(([a, b]) => {
     ctx.beginPath();
     ctx.moveTo(positions[a].x, positions[a].y);
     ctx.lineTo(positions[b].x, positions[b].y);
-    ctx.strokeStyle = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? "#e67e22" : "#888";
-    ctx.lineWidth = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? 5 : 2;
+    ctx.strokeStyle = highlightEdges.some(([ha, hb]) =>
+      (ha === a && hb === b) || (ha === b && hb === a)) ? "#e67e22" : "#888";
+    ctx.lineWidth = highlightEdges.some(([ha, hb]) =>
+      (ha === a && hb === b) || (ha === b && hb === a)) ? 5 : 2;
     ctx.stroke();
   });
-
-  // Draw nodes
   nodes.forEach((node, i) => {
     ctx.beginPath();
     ctx.arc(positions[i].x, positions[i].y, 22, 0, 2 * Math.PI);
@@ -58,9 +56,7 @@ function runBFS() {
     order.push(node);
     edges.forEach(([a, b]) => {
       if (a === node && !visited[b]) {
-        queue.push(b);
-        visited[b] = true;
-        traversedEdges.push([a, b]);
+        queue.push(b); visited[b] = true; traversedEdges.push([a, b]);
       }
     });
   }
@@ -71,13 +67,9 @@ function runBFS() {
 function runDFS() {
   let visited = Array(nodes.length).fill(false), order = [], traversedEdges = [];
   function dfs(node) {
-    visited[node] = true;
-    order.push(node);
+    visited[node] = true; order.push(node);
     edges.forEach(([a, b]) => {
-      if (a === node && !visited[b]) {
-        traversedEdges.push([a, b]);
-        dfs(b);
-      }
+      if (a === node && !visited[b]) { traversedEdges.push([a, b]); dfs(b); }
     });
   }
   dfs(0);
@@ -88,17 +80,11 @@ function runDFS() {
 function runShortestPath() {
   let start = 0, end = 7;
   let visited = Array(nodes.length).fill(false), prev = Array(nodes.length).fill(-1);
-  let queue = [start];
-  visited[start] = true;
+  let queue = [start]; visited[start] = true;
   while (queue.length > 0) {
-    let node = queue.shift();
-    if (node === end) break;
+    let node = queue.shift(); if (node === end) break;
     edges.forEach(([a, b]) => {
-      if (a === node && !visited[b]) {
-        queue.push(b);
-        visited[b] = true;
-        prev[b] = node;
-      }
+      if (a === node && !visited[b]) { queue.push(b); visited[b] = true; prev[b] = node; }
     });
   }
   let path = [];
@@ -116,18 +102,15 @@ function runDijkstra() {
   let prev = Array(nodes.length).fill(-1);
   let visited = Array(nodes.length).fill(false);
   dist[start] = 0;
-
   for (let count = 0; count < nodes.length; count++) {
     let u = -1;
-    for (let i = 0; i < nodes.length; i++) {
+    for (let i = 0; i < nodes.length; i++)
       if (!visited[i] && (u === -1 || dist[i] < dist[u])) u = i;
-    }
     if (dist[u] === Infinity) break;
     visited[u] = true;
     edges.forEach(([a, b]) => {
       if (a === u && !visited[b] && dist[u] + 1 < dist[b]) {
-        dist[b] = dist[u] + 1;
-        prev[b] = u;
+        dist[b] = dist[u] + 1; prev[b] = u;
       }
     });
   }
@@ -137,8 +120,7 @@ function runDijkstra() {
   let pathEdges = [];
   for (let i = 0; i < path.length - 1; ++i) pathEdges.push([path[i], path[i + 1]]);
   drawGraph("graph-canvas-dijkstra", path, pathEdges);
-  document.getElementById("dijkstra-output").innerText =
-    "Dijkstra Path: " + path.join(" → ");
+  document.getElementById("dijkstra-output").innerText = "Dijkstra Path: " + path.join(" → ");
 }
 
 window.addEventListener('DOMContentLoaded', function () {
