@@ -1,11 +1,10 @@
 package com.pathfinder;
 
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/algorithms")
-@CrossOrigin(origins = "*")
 public class AlgorithmController {
 
     @PostMapping("/bfs")
@@ -23,6 +22,11 @@ public class AlgorithmController {
         return GraphAlgorithms.shortestPath(request.getGraph(), request.getStart(), request.getEnd());
     }
 
+    @PostMapping("/dijkstra")
+    public List<Integer> dijkstra(@RequestBody DijkstraRequest request) {
+        return GraphAlgorithms.dijkstra(request.getGraph(), request.getWeights(), request.getStart(), request.getEnd());
+    }
+
     // Request classes
     public static class GraphRequest {
         private int[][] graph;
@@ -36,5 +40,10 @@ public class AlgorithmController {
         private int end;
         public int getEnd() { return end; }
         public void setEnd(int end) { this.end = end; }
+    }
+    public static class DijkstraRequest extends PathRequest {
+        private int[][] weights;
+        public int[][] getWeights() { return weights; }
+        public void setWeights(int[][] weights) { this.weights = weights; }
     }
 }
