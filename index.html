@@ -12,87 +12,99 @@
     <a href="#intro"><b>GRAPHS INTRO</b></a>
     <a href="#algorithms"><b>GRAPH ALGORITHMS</b></a>
     <a href="#shortest-path"><b>SHORTEST PATH</b></a>
+    <a href="#dijkstra"><b>DIJKSTRA'S ALGORITHM</b></a>
   </nav>
   <div class="section" id="intro">
     <h1><b>GRAPHS: THE BASICS</b></h1>
     <div class="centered">
       <p>
         <b>What is a graph?</b><br>
-        A <b>graph</b> is a way to represent connections between things. Each item is a <b>node</b> (or vertex), and each connection is called an <b>edge</b>.<br><br>
-        <b>Real-life examples:</b>
+        A <b>graph</b> is a mathematical structure that models relationships between objects. Each object is called a <b>node</b> or <b>vertex</b>, and the connections between them are called <b>edges</b>. Graphs are used everywhere: social networks, maps, recommendation engines, network routing, and much more.<br><br>
+        <b>Key Components:</b>
         <ul>
-          <li>Social networks (people as nodes, friendships as edges)</li>
-          <li>Maps (places as nodes, roads as edges)</li>
-          <li>Internet (computers as nodes, cables as edges)</li>
-        </ul>
-        <b>Types of graphs:</b>
-        <ul>
-          <li><b>Undirected:</b> Connections go both ways (like a two-way street)</li>
-          <li><b>Directed:</b> Connections have a direction (like a one-way street)</li>
-          <li><b>Weighted:</b> Edges have a value (like road distance)</li>
-          <li><b>Unweighted:</b> All connections are equal</li>
+          <li><b>Node (Vertex):</b> A point, representing an entity (like a city or a person).</li>
+          <li><b>Edge:</b> A connection between two nodes (like a road between cities, or a friendship between people).</li>
         </ul>
       </p>
-      <!-- Increased canvas height for intro graph -->
-      <canvas id="graph-canvas-intro" width="500" height="300"></canvas>
-      <p style="font-style:italic;">
-        This is a simple undirected, unweighted graph. Each circle is a node, and each line is an edge.
+      <h2>Visual Representation</h2>
+      <div style="display:flex;justify-content:center;align-items:center;">
+        <!-- SVG Diagram for Nodes, Edges, Vertices -->
+        <svg width="350" height="200">
+          <!-- Nodes -->
+          <circle cx="60" cy="100" r="20" fill="#43c6ac" />
+          <text x="60" y="100" text-anchor="middle" dy="5" font-size="16" fill="#222">A</text>
+          <circle cx="170" cy="50" r="20" fill="#43c6ac" />
+          <text x="170" y="50" text-anchor="middle" dy="5" font-size="16" fill="#222">B</text>
+          <circle cx="170" cy="150" r="20" fill="#43c6ac" />
+          <text x="170" y="150" text-anchor="middle" dy="5" font-size="16" fill="#222">C</text>
+          <circle cx="280" cy="100" r="20" fill="#43c6ac" />
+          <text x="280" y="100" text-anchor="middle" dy="5" font-size="16" fill="#222">D</text>
+          <!-- Edges -->
+          <line x1="60" y1="100" x2="170" y2="50" stroke="#222" stroke-width="3"/>
+          <line x1="60" y1="100" x2="170" y2="150" stroke="#222" stroke-width="3"/>
+          <line x1="170" y1="50" x2="280" y2="100" stroke="#222" stroke-width="3"/>
+          <line x1="170" y1="150" x2="280" y2="100" stroke="#222" stroke-width="3"/>
+          <line x1="170" y1="50" x2="170" y2="150" stroke="#222" stroke-width="3"/>
+        </svg>
+      </div>
+      <p style="margin-top:1em;font-size:1.15em;">
+        <b>In the diagram above:</b><br>
+        - The colored circles are <span style="color:#43c6ac;font-weight:bold;">nodes (vertices)</span>.<br>
+        - The lines are <span style="color:#222;font-weight:bold;">edges</span> connecting the nodes.<br>
+        - A collection of nodes and edges forms a <b>graph</b>.<br>
+      </p>
+      <h3>Types of Graphs</h3>
+      <ul>
+        <li><b>Undirected:</b> Connections go both ways, like a two-way street. Example: Facebook friends.</li>
+        <li><b>Directed:</b> Connections have a direction, like a one-way street. Example: Twitter followers.</li>
+        <li><b>Weighted:</b> Edges have values (weights), such as road distances or costs.</li>
+        <li><b>Unweighted:</b> All connections are equal; no special value associated.</li>
+      </ul>
+      <p style="font-size:1.13em;">
+        <b>Graphs are the foundation of many algorithms. Let’s explore how we use them!</b>
       </p>
     </div>
   </div>
-
   <div class="section" id="algorithms">
-    <h1><b>GRAPH ALGORITHMS: BFS & DFS</b></h1>
+    <h1><b>GRAPH ALGORITHMS</b></h1>
     <div class="centered">
-      <h2><b>BREADTH-FIRST SEARCH (BFS)</b></h2>
+      <h2>Breadth-First Search (BFS)</h2>
       <p>
-        <b>BFS</b> is like exploring a maze layer by layer. Imagine you are at node "A" and want to visit every place you can reach, moving outward step by step.
-        <br><br>
+        <b>BFS</b> is a classic algorithm for exploring graphs. It starts at a node and explores all its neighbors before moving further. Imagine ripples spreading in water—BFS visits nodes level-by-level.<br>
         <b>How BFS works:</b>
         <ol>
-          <li>Start at the chosen node (e.g., A)</li>
-          <li>Visit all direct neighbors</li>
-          <li>Then visit neighbors of those neighbors</li>
-          <li>Continue until all nodes are visited</li>
+          <li>Start at the source node</li>
+          <li>Mark it as visited, add to a queue</li>
+          <li>Dequeue node, visit all its unvisited neighbors, mark them visited, and enqueue them</li>
+          <li>Repeat until the queue is empty</li>
         </ol>
-        <b>Uses:</b> Finding the shortest path in unweighted graphs, social networks, maps.
-        <br>
-        <button onclick="runBFS()">Run BFS Demo</button>
+        <b>Uses:</b> Finding the shortest path in unweighted graphs, social networks, web crawlers, and more.<br>
+        <button onclick="runBFS()">RUN DEMO (BFS)</button>
       </p>
-      <!-- Dedicated canvas for BFS animation -->
-      <canvas id="graph-canvas-bfs" width="500" height="300"></canvas>
+      <canvas id="graph-canvas-bfs" width="500" height="200"></canvas>
       <div id="bfs-output"></div>
-      <h2><b>DEPTH-FIRST SEARCH (DFS)</b></h2>
+      <h2>Depth-First Search (DFS)</h2>
       <p>
-        <b>DFS</b> is like exploring as far as you can go down one path before backtracking.
-        <br><br>
+        <b>DFS</b> explores as deep as possible along each branch before backtracking. It’s like navigating a maze—going as far as you can before hitting a wall.<br>
         <b>How DFS works:</b>
         <ol>
           <li>Start at the chosen node</li>
-          <li>Go to one neighbor, then its neighbor, as deep as you can</li>
-          <li>If you reach a dead end, back up and try the next path</li>
-          <li>Continue until all nodes are visited</li>
+          <li>Mark as visited</li>
+          <li>Recursively visit each unvisited neighbor</li>
+          <li>Backtrack when needed</li>
         </ol>
-        <b>Uses:</b> Solving puzzles, analyzing networks, finding connected components.
-        <br>
-        <button onclick="runDFS()">Run DFS Demo</button>
+        <b>Uses:</b> Puzzle solving, network analysis, finding connected components.<br>
+        <button onclick="runDFS()">RUN DEMO (DFS)</button>
       </p>
-      <!-- Dedicated canvas for DFS animation -->
-      <canvas id="graph-canvas-dfs" width="500" height="300"></canvas>
+      <canvas id="graph-canvas-dfs" width="500" height="200"></canvas>
       <div id="dfs-output"></div>
     </div>
   </div>
-
   <div class="section" id="shortest-path">
     <h1><b>SHORTEST PATH IN GRAPHS</b></h1>
     <div class="centered">
       <p>
-        <b>What is the shortest path?</b><br>
-        The shortest path between two nodes is the path with the fewest edges (or lowest total weight in weighted graphs).
-        <br><br>
-        <b>How do we find it?</b><br>
-        For unweighted graphs, <b>Breadth-First Search (BFS)</b> is the simplest way to find the shortest path.
-        <br><br>
+        The shortest path between two nodes is the path with the fewest edges (or lowest total weight in weighted graphs). In unweighted graphs, <b>BFS</b> efficiently finds the shortest path.<br><br>
         <b>Step-by-step:</b>
         <ol>
           <li>Start at the source node</li>
@@ -100,182 +112,89 @@
           <li>Track how you got to each node</li>
           <li>Once you reach the target node, trace back your steps</li>
         </ol>
-        <button onclick="runShortestPath()">Show Shortest Path (A to F)</button>
+        <b>Uses:</b> Routing, network optimization, urban planning.<br>
+        <button onclick="runShortestPath()">RUN DEMO (Shortest Path)</button>
       </p>
-      <!-- Dedicated canvas for shortest path animation -->
-      <canvas id="graph-canvas-path" width="500" height="300"></canvas>
+      <canvas id="graph-canvas-path" width="500" height="200"></canvas>
       <div id="path-output"></div>
-      <hr>
-      <h2><b>SUMMARY & KEY POINTS</b></h2>
-      <ul>
-        <li>Graphs help model connections in the real world</li>
-        <li>BFS explores layer by layer, DFS goes deep before backtracking</li>
-        <li>BFS is best for shortest path in unweighted graphs</li>
-        <li>Visualizing algorithms helps understand how they work</li>
-      </ul>
     </div>
   </div>
-
-  <!-- Centered and easy-to-understand JavaScript with comments -->
-  <script>
-    // ---------------------------
-    // Graph Data for all sections
-    // ---------------------------
-    // 6 nodes, undirected, unweighted. Labels: A-F
-    const nodes = [
-      {x: 120, y: 100, label: 'A'},
-      {x: 380, y: 100, label: 'B'},
-      {x: 250, y: 50, label: 'C'},
-      {x: 250, y: 200, label: 'D'},
-      {x: 120, y: 260, label: 'E'},
-      {x: 380, y: 260, label: 'F'}
-    ];
-    // Edges connect pairs of node indices
-    const edges = [
-      [0, 2], [2, 1], [0, 3], [1, 3], [3, 4], [3, 5], [4, 5]
-    ];
-
-    // ---------------------------
-    // Drawing Functions
-    // ---------------------------
-    // Draw the graph with optional highlighted nodes
-    function drawGraph(canvasId, highlighted=[]) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw edges
-      ctx.strokeStyle = '#888';
-      ctx.lineWidth = 2;
-      for (let [a, b] of edges) {
-        ctx.beginPath();
-        ctx.moveTo(nodes[a].x, nodes[a].y);
-        ctx.lineTo(nodes[b].x, nodes[b].y);
-        ctx.stroke();
-      }
-
-      // Draw nodes
-      for (let i = 0; i < nodes.length; i++) {
-        ctx.beginPath();
-        ctx.arc(nodes[i].x, nodes[i].y, 22, 0, 2 * Math.PI);
-        ctx.fillStyle = highlighted.includes(i) ? '#ffd700' : '#43c6ac';
-        ctx.fill();
-        ctx.strokeStyle = '#333';
-        ctx.stroke();
-        ctx.fillStyle = '#222';
-        ctx.font = 'bold 17px Segoe UI';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(nodes[i].label, nodes[i].x, nodes[i].y);
-      }
-    }
-
-    // Draw static graphs on each section at page load
-    window.onload = function() {
-      drawGraph('graph-canvas-intro');
-      drawGraph('graph-canvas-bfs');
-      drawGraph('graph-canvas-dfs');
-      drawGraph('graph-canvas-path');
-    };
-
-    // ---------------------------
-    // Algorithm Functions
-    // ---------------------------
-    // BFS: returns order visited + how we got to each node
-    function bfs(start, end=null) {
-      let visited = Array(nodes.length).fill(false);
-      let queue = [start];
-      let order = [];
-      let prev = Array(nodes.length).fill(-1);
-      visited[start] = true;
-      while (queue.length > 0) {
-        let node = queue.shift();
-        order.push(node);
-        if (node === end) break;
-        for (let [a, b] of edges) {
-          let neighbor = null;
-          if (a === node) neighbor = b;
-          else if (b === node) neighbor = a;
-          if (neighbor !== null && !visited[neighbor]) {
-            queue.push(neighbor);
-            visited[neighbor] = true;
-            prev[neighbor] = node;
-          }
-        }
-      }
-      return {order, prev};
-    }
-
-    // DFS: returns order visited + how we got to each node
-    function dfs(start, end=null) {
-      let visited = Array(nodes.length).fill(false);
-      let stack = [start];
-      let order = [];
-      let prev = Array(nodes.length).fill(-1);
-      visited[start] = true;
-      while (stack.length > 0) {
-        let node = stack.pop();
-        order.push(node);
-        if (node === end) break;
-        for (let [a, b] of edges) {
-          let neighbor = null;
-          if (a === node) neighbor = b;
-          else if (b === node) neighbor = a;
-          if (neighbor !== null && !visited[neighbor]) {
-            stack.push(neighbor);
-            visited[neighbor] = true;
-            prev[neighbor] = node;
-          }
-        }
-      }
-      return {order, prev};
-    }
-
-    // Reconstruct path from prev array
-    function reconstructPath(prev, start, end) {
-      let path = [];
-      for (let at = end; at !== -1; at = prev[at]) path.push(at);
-      path.reverse();
-      if (path[0] !== start) return [];
-      return path;
-    }
-
-    // Animation helpers
-    async function animateOrder(canvasId, order) {
-      for (let i = 0; i < order.length; i++) {
-        drawGraph(canvasId, order.slice(0, i+1));
-        await new Promise(res => setTimeout(res, 600));
-      }
-      drawGraph(canvasId, order);
-    }
-
-    // ---------------------------
-    // Button Actions
-    // ---------------------------
-    async function runBFS() {
-      document.getElementById('bfs-output').innerText = 'Running BFS from A...';
-      const {order} = bfs(0); // Start at node A
-      await animateOrder('graph-canvas-bfs', order);
-      document.getElementById('bfs-output').innerText =
-        'BFS visit order: ' + order.map(i => nodes[i].label).join(' → ');
-    }
-
-    async function runDFS() {
-      document.getElementById('dfs-output').innerText = 'Running DFS from A...';
-      const {order} = dfs(0); // Start at node A
-      await animateOrder('graph-canvas-dfs', order);
-      document.getElementById('dfs-output').innerText =
-        'DFS visit order: ' + order.map(i => nodes[i].label).join(' → ');
-    }
-
-    async function runShortestPath() {
-      document.getElementById('path-output').innerText = 'Finding shortest path from A to F...';
-      const {prev} = bfs(0, 5); // BFS for shortest path from A to F
-      const path = reconstructPath(prev, 0, 5);
-      await animateOrder('graph-canvas-path', path);
-      document.getElementById('path-output').innerText =
-        'Shortest path from A to F: ' + path.map(i => nodes[i].label).join(' → ');
-    }
-  </script>
+  <div class="section" id="dijkstra">
+    <h1><b>Dijkstra's Algorithm</b></h1>
+    <div class="centered">
+      <p>
+        <b>Dijkstra's Algorithm</b> is a famous algorithm for finding the shortest path in weighted graphs. Unlike BFS, Dijkstra’s can handle edge weights and always finds the least-cost path.<br>
+        <b>How Dijkstra's Algorithm works:</b>
+        <ol>
+          <li>Start with the source node, set distance to 0, all others to infinity</li>
+          <li>Put all nodes in a priority queue (min-heap) based on current shortest distance</li>
+          <li>Pick the node with the smallest distance, update distances to its neighbors if a shorter path is found</li>
+          <li>Repeat until all nodes are visited or the target node’s shortest path is found</li>
+        </ol>
+        <b>Applications:</b> GPS navigation, network routing, resource allocation.<br>
+        <b>Pseudocode:</b>
+        <pre>
+function dijkstra(graph, source):
+    dist[source] = 0
+    for each node in graph:
+        if node != source:
+            dist[node] = infinity
+    while unvisited nodes remain:
+        current = node with smallest dist
+        for neighbor of current:
+            if dist[neighbor] > dist[current] + edge_weight:
+                dist[neighbor] = dist[current] + edge_weight
+        mark current as visited
+        if current is target: break
+        </pre>
+        <button onclick="runDijkstra()">RUN DEMO (Dijkstra's)</button>
+      </p>
+      <canvas id="graph-canvas-dijkstra" width="500" height="200"></canvas>
+      <div id="dijkstra-output"></div>
+    </div>
+  </div>
+  <div class="section" id="flowcharts">
+    <h1><b>Algorithm Flowchart Comparison</b></h1>
+    <div style="display:flex;justify-content:space-around;align-items:flex-start;">
+      <!-- SVG Flowchart for BFS, DFS, Shortest Path -->
+      <svg width="320" height="200">
+        <rect x="10" y="10" width="90" height="40" rx="10" fill="#43c6ac" />
+        <text x="55" y="35" text-anchor="middle" font-size="14" fill="#222">Start</text>
+        <rect x="120" y="10" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="165" y="35" text-anchor="middle" font-size="14" fill="#222">BFS Layer</text>
+        <rect x="230" y="10" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="275" y="35" text-anchor="middle" font-size="14" fill="#222">Next Layer</text>
+        <line x1="100" y1="30" x2="120" y2="30" stroke="#222" stroke-width="2"/>
+        <line x1="210" y1="30" x2="230" y2="30" stroke="#222" stroke-width="2"/>
+      </svg>
+      <svg width="320" height="200">
+        <rect x="10" y="70" width="90" height="40" rx="10" fill="#43c6ac" />
+        <text x="55" y="95" text-anchor="middle" font-size="14" fill="#222">Start</text>
+        <rect x="120" y="70" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="165" y="95" text-anchor="middle" font-size="14" fill="#222">DFS Branch</text>
+        <line x1="100" y1="90" x2="120" y2="90" stroke="#222" stroke-width="2"/>
+        <rect x="230" y="30" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="275" y="55" text-anchor="middle" font-size="14" fill="#222">Backtrack</text>
+        <line x1="210" y1="90" x2="230" y2="50" stroke="#222" stroke-width="2"/>
+      </svg>
+      <svg width="320" height="200">
+        <rect x="10" y="130" width="90" height="40" rx="10" fill="#43c6ac" />
+        <text x="55" y="155" text-anchor="middle" font-size="14" fill="#222">Start</text>
+        <rect x="120" y="130" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="165" y="155" text-anchor="middle" font-size="14" fill="#222">Shortest Path</text>
+        <line x1="100" y1="150" x2="120" y2="150" stroke="#222" stroke-width="2"/>
+        <rect x="230" y="130" width="90" height="40" rx="10" fill="#f8ffae" />
+        <text x="275" y="155" text-anchor="middle" font-size="14" fill="#222">End</text>
+        <line x1="210" y1="150" x2="230" y2="150" stroke="#222" stroke-width="2"/>
+      </svg>
+    </div>
+    <p style="text-align:center;margin-top:1em;">
+      <b>BFS</b> explores layer by layer.<br>
+      <b>DFS</b> goes deep along a branch before backtracking.<br>
+      <b>Shortest Path</b> (BFS/Dijkstra) seeks the least-cost route from source to destination.<br>
+    </p>
+  </div>
+  <footer class="centered" style="margin:2em 0;font-size:1em;color:#888;">&copy; 2025 Path Finder. All rights reserved.</footer>
+  <script src="main.js"></script>
 </body>
 </html>
