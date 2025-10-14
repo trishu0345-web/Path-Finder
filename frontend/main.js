@@ -5,17 +5,6 @@ const edges = [
   [2, 6],
   [3, 7]
 ];
-// All edges have weight 1 (unweighted for Dijkstra demo)
-const weights = [
-  [0, 1, 1, 1, 0, 0, 0, 0],
-  [1, 0, 0, 0, 1, 1, 0, 0],
-  [1, 0, 0, 0, 0, 0, 1, 0],
-  [1, 0, 0, 0, 0, 0, 0, 1],
-  [0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 0]
-];
 const positions = [
   {x: 200, y: 50},   // 0 (root)
   {x: 80, y: 130},   // 1
@@ -33,6 +22,7 @@ function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  // Draw edges
   edges.forEach(([a, b]) => {
     ctx.beginPath();
     ctx.moveTo(positions[a].x, positions[a].y);
@@ -40,18 +30,9 @@ function drawGraph(canvasId, highlightNodes = [], highlightEdges = []) {
     ctx.strokeStyle = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? "#e67e22" : "#888";
     ctx.lineWidth = highlightEdges.some(([ha, hb]) => (ha === a && hb === b) || (ha === b && hb === a)) ? 5 : 2;
     ctx.stroke();
-    // Optionally show weights (all 1 here)
-    if (canvasId === "graph-canvas-dijkstra") {
-      ctx.fillStyle = "#222";
-      ctx.font = "bold 13px Segoe UI";
-      ctx.fillText(
-        "1",
-        (positions[a].x + positions[b].x) / 2 + 10,
-        (positions[a].y + positions[b].y) / 2
-      );
-    }
   });
 
+  // Draw nodes
   nodes.forEach((node, i) => {
     ctx.beginPath();
     ctx.arc(positions[i].x, positions[i].y, 22, 0, 2 * Math.PI);
@@ -143,31 +124,23 @@ function runDijkstra() {
     }
     if (dist[u] === Infinity) break;
     visited[u] = true;
-    for (let v = 0; v < nodes.length; v++) {
-      if (
-        weights[u][v] > 0 &&
-        !visited[v] &&
-        dist[u] + weights[u][v] < dist[v]
-      ) {
-        dist[v] = dist[u] + weights[u][v];
-        prev[v] = u;
+    edges.forEach(([a, b]) => {
+      if (a === u && !visited[b] && dist[u] + 1 < dist[b]) {
+        dist[b] = dist[u] + 1;
+        prev[b] = u;
       }
-    }
+    });
   }
-  // Reconstruct path
   let path = [];
   for (let at = end; at !== -1; at = prev[at]) path.push(at);
   path.reverse();
   let pathEdges = [];
-  for (let i = 0; i < path.length - 1; ++i) {
-    pathEdges.push([path[i], path[i + 1]]);
-  }
+  for (let i = 0; i < path.length - 1; ++i) pathEdges.push([path[i], path[i + 1]]);
   drawGraph("graph-canvas-dijkstra", path, pathEdges);
   document.getElementById("dijkstra-output").innerText =
-    "Dijkstra Path: " + path.join(" → ") + " (Distance: " + dist[end] + ")";
+    "Dijkstra Path: " + path.join(" → ");
 }
 
-// Draw all graphs on page load
 window.addEventListener('DOMContentLoaded', function () {
   drawGraph("graph-canvas-bfs");
   drawGraph("graph-canvas-dfs");
