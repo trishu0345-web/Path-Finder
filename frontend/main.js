@@ -1,6 +1,5 @@
 // Demo logic for BFS, DFS, Shortest Path, and Dijkstra
 
-// Example graph: nodes are 0,1,2,3 (A,B,C,D)
 const nodes = ["A", "B", "C", "D"];
 const edges = [
   [0, 1], [0, 2], [1, 3], [2, 3], [1, 2]
@@ -14,7 +13,6 @@ function drawGraph(canvasId) {
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Node positions
   const positions = [
     {x:60, y:100}, {x:170, y:50}, {x:170, y:150}, {x:280, y:100}
   ];
@@ -26,7 +24,6 @@ function drawGraph(canvasId) {
     ctx.strokeStyle = "#222";
     ctx.lineWidth = 3;
     ctx.stroke();
-    // If weights exist, draw them
     if (canvasId === "graph-canvas-dijkstra") {
       const midX = (positions[a].x + positions[b].x)/2;
       const midY = (positions[a].y + positions[b].y)/2;
@@ -52,6 +49,7 @@ function drawGraph(canvasId) {
   });
 }
 
+// Always show the graphs on page load
 window.onload = function() {
   drawGraph('graph-canvas-bfs');
   drawGraph('graph-canvas-dfs');
@@ -61,6 +59,7 @@ window.onload = function() {
 
 // BFS Demo
 function runBFS() {
+  drawGraph('graph-canvas-bfs'); // Ensure graph is visible
   let visited = Array(nodes.length).fill(false);
   let queue = [0];
   let order = [];
@@ -83,6 +82,7 @@ function runBFS() {
 
 // DFS Demo
 function runDFS() {
+  drawGraph('graph-canvas-dfs'); // Ensure graph is visible
   let visited = Array(nodes.length).fill(false);
   let order = [];
   function dfs(node) {
@@ -101,6 +101,7 @@ function runDFS() {
 
 // Shortest Path Demo (BFS)
 function runShortestPath() {
+  drawGraph('graph-canvas-path'); // Ensure graph is visible
   let start = 0, end = 3;
   let visited = Array(nodes.length).fill(false);
   let prev = Array(nodes.length).fill(-1);
@@ -120,7 +121,6 @@ function runShortestPath() {
       }
     });
   }
-  // Reconstruct path
   let path = [];
   for (let at = end; at !== -1; at = prev[at]) path.push(nodes[at]);
   path.reverse();
@@ -129,13 +129,13 @@ function runShortestPath() {
 
 // Dijkstra Demo
 function runDijkstra() {
+  drawGraph('graph-canvas-dijkstra'); // Ensure graph is visible
   let start = 0, end = 3;
   let dist = Array(nodes.length).fill(Infinity);
   let prev = Array(nodes.length).fill(-1);
   let visited = Array(nodes.length).fill(false);
   dist[start] = 0;
   for (let i = 0; i < nodes.length; i++) {
-    // Find unvisited node with smallest dist
     let u = -1;
     for (let j = 0; j < nodes.length; j++) {
       if (!visited[j] && (u === -1 || dist[j] < dist[u])) u = j;
@@ -153,7 +153,6 @@ function runDijkstra() {
       }
     });
   }
-  // Reconstruct path
   let path = [];
   for (let at = end; at !== -1; at = prev[at]) path.push(nodes[at]);
   path.reverse();
