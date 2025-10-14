@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Path Finder & Graph Algorithms Visualizer</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .flowchart-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .flowchart-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .flowchart-card:hover {
+      transform: translateY(-5px);
+    }
+  </style>
 </head>
 <body>
   <!-- Navigation Links for Easy Section Jumping -->
@@ -13,6 +32,7 @@
     <a href="#algorithms"><b>GRAPH ALGORITHMS</b></a>
     <a href="#shortest-path"><b>SHORTEST PATH</b></a>
     <a href="#dijkstra"><b>DIJKSTRA'S ALGORITHM</b></a>
+    <a href="#flowcharts"><b>FLOWCHARTS</b></a>
   </nav>
   <div class="section" id="intro">
     <h1><b>GRAPHS: THE BASICS</b></h1>
@@ -61,7 +81,7 @@
         <li><b>Unweighted:</b> All connections are equal; no special value associated.</li>
       </ul>
       <p style="font-size:1.13em;">
-        <b>Graphs are the foundation of many algorithms. Let’s explore how we use them!</b>
+        <b>Graphs are the foundation of many algorithms. Let's explore how we use them!</b>
       </p>
     </div>
   </div>
@@ -85,7 +105,7 @@
       <div id="bfs-output"></div>
       <h2>Depth-First Search (DFS)</h2>
       <p>
-        <b>DFS</b> explores as deep as possible along each branch before backtracking. It’s like navigating a maze—going as far as you can before hitting a wall.<br>
+        <b>DFS</b> explores as deep as possible along each branch before backtracking. It's like navigating a maze—going as far as you can before hitting a wall.<br>
         <b>How DFS works:</b>
         <ol>
           <li>Start at the chosen node</li>
@@ -123,13 +143,13 @@
     <h1><b>Dijkstra's Algorithm</b></h1>
     <div class="centered">
       <p>
-        <b>Dijkstra's Algorithm</b> is a famous algorithm for finding the shortest path in weighted graphs. Unlike BFS, Dijkstra’s can handle edge weights and always finds the least-cost path.<br>
+        <b>Dijkstra's Algorithm</b> is a famous algorithm for finding the shortest path in weighted graphs. Unlike BFS, Dijkstra's can handle edge weights and always finds the least-cost path.<br>
         <b>How Dijkstra's Algorithm works:</b>
         <ol>
           <li>Start with the source node, set distance to 0, all others to infinity</li>
           <li>Put all nodes in a priority queue (min-heap) based on current shortest distance</li>
           <li>Pick the node with the smallest distance, update distances to its neighbors if a shorter path is found</li>
-          <li>Repeat until all nodes are visited or the target node’s shortest path is found</li>
+          <li>Repeat until all nodes are visited or the target node's shortest path is found</li>
         </ol>
         <b>Applications:</b> GPS navigation, network routing, resource allocation.<br>
         <b>Pseudocode:</b>
@@ -153,40 +173,47 @@ function dijkstra(graph, source):
       <div id="dijkstra-output"></div>
     </div>
   </div>
+
+  <!-- NEW FLOWCHART SECTION -->
   <div class="section" id="flowcharts">
     <h1><b>Algorithm Flowchart Comparison</b></h1>
-    <div style="display:flex;justify-content:space-around;align-items:flex-start;">
-      <!-- SVG Flowchart for BFS, DFS, Shortest Path -->
-      <svg width="320" height="200">
-        <rect x="10" y="10" width="90" height="40" rx="10" fill="#43c6ac" />
-        <text x="55" y="35" text-anchor="middle" font-size="14" fill="#222">Start</text>
-        <rect x="120" y="10" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="165" y="35" text-anchor="middle" font-size="14" fill="#222">BFS Layer</text>
-        <rect x="230" y="10" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="275" y="35" text-anchor="middle" font-size="14" fill="#222">Next Layer</text>
-        <line x1="100" y1="30" x2="120" y2="30" stroke="#222" stroke-width="2"/>
-        <line x1="210" y1="30" x2="230" y2="30" stroke="#222" stroke-width="2"/>
-      </svg>
-      <svg width="320" height="200">
-        <rect x="10" y="70" width="90" height="40" rx="10" fill="#43c6ac" />
-        <text x="55" y="95" text-anchor="middle" font-size="14" fill="#222">Start</text>
-        <rect x="120" y="70" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="165" y="95" text-anchor="middle" font-size="14" fill="#222">DFS Branch</text>
-        <line x1="100" y1="90" x2="120" y2="90" stroke="#222" stroke-width="2"/>
-        <rect x="230" y="30" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="275" y="55" text-anchor="middle" font-size="14" fill="#222">Backtrack</text>
-        <line x1="210" y1="90" x2="230" y2="50" stroke="#222" stroke-width="2"/>
-      </svg>
-      <svg width="320" height="200">
-        <rect x="10" y="130" width="90" height="40" rx="10" fill="#43c6ac" />
-        <text x="55" y="155" text-anchor="middle" font-size="14" fill="#222">Start</text>
-        <rect x="120" y="130" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="165" y="155" text-anchor="middle" font-size="14" fill="#222">Shortest Path</text>
-        <line x1="100" y1="150" x2="120" y2="150" stroke="#222" stroke-width="2"/>
-        <rect x="230" y="130" width="90" height="40" rx="10" fill="#f8ffae" />
-        <text x="275" y="155" text-anchor="middle" font-size="14" fill="#222">End</text>
-        <line x1="210" y1="150" x2="230" y2="150" stroke="#222" stroke-width="2"/>
-      </svg>
+    <div class="flowchart-flex">
+      <div class="flowchart-card">
+        <svg width="350" height="120">
+          <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
+          <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
+          <rect x="130" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
+          <text x="175" y="67" text-anchor="middle" font-size="18" fill="#222">BFS Layer</text>
+          <rect x="240" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
+          <text x="285" y="67" text-anchor="middle" font-size="18" fill="#222">Next Layer</text>
+          <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
+          <line x1="220" y1="60" x2="240" y2="60" stroke="#222" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="flowchart-card">
+        <svg width="350" height="120">
+          <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
+          <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
+          <rect x="130" y="40" width="90" height="40" rx="15" fill="#f8ffae"/>
+          <text x="175" y="67" text-anchor="middle" font-size="18" fill="#222">DFS Branch</text>
+          <rect x="240" y="10" width="90" height="40" rx="15" fill="#f8ffae"/>
+          <text x="285" y="37" text-anchor="middle" font-size="18" fill="#222">Backtrack</text>
+          <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
+          <line x1="220" y1="60" x2="240" y2="30" stroke="#222" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="flowchart-card">
+        <svg width="350" height="120">
+          <rect x="20" y="40" width="90" height="40" rx="15" fill="#43c6ac"/>
+          <text x="65" y="67" text-anchor="middle" font-size="18" fill="#222">Start</text>
+          <rect x="130" y="40" width="140" height="40" rx="15" fill="#f8ffae"/>
+          <text x="200" y="67" text-anchor="middle" font-size="18" fill="#222">Shortest Path</text>
+          <rect x="280" y="40" width="60" height="40" rx="15" fill="#f8ffae"/>
+          <text x="310" y="67" text-anchor="middle" font-size="18" fill="#222">End</text>
+          <line x1="110" y1="60" x2="130" y2="60" stroke="#222" stroke-width="3"/>
+          <line x1="270" y1="60" x2="280" y2="60" stroke="#222" stroke-width="3"/>
+        </svg>
+      </div>
     </div>
     <p style="text-align:center;margin-top:1em;">
       <b>BFS</b> explores layer by layer.<br>
@@ -194,6 +221,7 @@ function dijkstra(graph, source):
       <b>Shortest Path</b> (BFS/Dijkstra) seeks the least-cost route from source to destination.<br>
     </p>
   </div>
+
   <footer class="centered" style="margin:2em 0;font-size:1em;color:#888;">&copy; 2025 Path Finder. All rights reserved.</footer>
   <script src="main.js"></script>
 </body>
