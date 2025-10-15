@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finder Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .visualization {
+            flex: 2;
+            min-width: 500px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .algorithm-selector {
+            margin-bottom: 20px;
+        }
+        
+        .algorithm-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .algo-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .algo-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .algo-btn.active {
+            background: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+        }
+        
+        .grid-controls {
+            margin-bottom: 20px;
+        }
+        
+        .control-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .control-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.reset {
+            background: #e74c3c;
+        }
+        
+        .control-btn.reset:hover {
+            background: #c0392b;
+        }
+        
+        .speed-control {
+            margin-bottom: 20px;
+        }
+        
+        .speed-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #f1c40f;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .grid-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            overflow: auto;
+            min-height: 400px;
+        }
+        
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(20, 20px);
+            grid-template-rows: repeat(20, 20px);
+            gap: 1px;
+            margin: 20px;
+        }
+        
+        .cell {
+            width: 20px;
+            height: 20px;
+            background: #34495e;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+        
+        .cell.start {
+            background: #2ecc71;
+        }
+        
+        .cell.end {
+            background: #e74c3c;
+        }
+        
+        .cell.wall {
+            background: #2c3e50;
+        }
+        
+        .cell.visited {
+            background: #3498db;
+            animation: visitAnimation 0.5s;
+        }
+        
+        .cell.path {
+            background: #f1c40f;
+            animation: pathAnimation 0.5s;
+        }
+        
+        @keyframes visitAnimation {
+            0% {
+                transform: scale(0.3);
+                background: #8e44ad;
+                border-radius: 100%;
+            }
+            50% {
+                background: #3498db;
+            }
+            100% {
+                transform: scale(1);
+                background: #3498db;
+            }
+        }
+        
+        @keyframes pathAnimation {
+            0% {
+                transform: scale(0.6);
+                background: #f1c40f;
+            }
+            50% {
+                transform: scale(1.2);
+                background: #f1c40f;
+            }
+            100% {
+                transform: scale(1);
+                background: #f1c40f;
+            }
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+        
+        .legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 2px;
+        }
+        
+        .start-legend {
+            background: #2ecc71;
+        }
+        
+        .end-legend {
+            background: #e74c3c;
+        }
+        
+        .wall-legend {
+            background: #2c3e50;
+        }
+        
+        .visited-legend {
+            background: #3498db;
+        }
+        
+        .path-legend {
+            background: #f1c40f;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .visualization, .controls {
+                min-width: 100%;
+            }
+            
+            #grid {
+                grid-template-columns: repeat(15, 15px);
+                grid-template-rows: repeat(15, 15px);
+            }
+            
+            .cell {
+                width: 15px;
+                height: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Path Finder Visualization</h1>
+            <p class="subtitle">Visualize graph traversal and pathfinding algorithms</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="controls">
+                <div class="algorithm-selector">
+                    <h2>Algorithms</h2>
+                    <div class="algorithm-buttons">
+                        <button class="algo-btn" data-algo="bfs">BFS</button>
+                        <button class="algo-btn" data-algo="dfs">DFS</button>
+                        <button class="algo-btn" data-algo="dijkstra">Dijkstra's</button>
+                        <button class="algo-btn" data-algo="astar">A* Search</button>
+                    </div>
+                </div>
+                
+                <div class="grid-controls">
+                    <h2>Grid Controls</h2>
+                    <div class="control-buttons">
+                        <button class="control-btn" id="setStart">Set Start</button>
+                        <button class="control-btn" id="setEnd">Set End</button>
+                        <button class="control-btn" id="addWall">Add Walls</button>
+                        <button class="control-btn" id="clearWalls">Clear Walls</button>
+                        <button class="control-btn reset" id="resetGrid">Reset Grid</button>
+                    </div>
+                </div>
+                
+                <div class="speed-control">
+                    <h2>Animation Speed</h2>
+                    <input type="range" min="1" max="50" value="25" class="speed-slider" id="speedSlider">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Slow</span>
+                        <span>Fast</span>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>How to Use</h3>
+                    <ul>
+                        <li>Select an algorithm from the options</li>
+                        <li>Set start and end points using the buttons</li>
+                        <li>Add walls by clicking on the grid</li>
+                        <li>Click "Run Demo" to visualize the algorithm</li>
+                        <li>Adjust speed with the slider</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="visualization">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h2>Visualization</h2>
+                    <button class="control-btn" id="runDemo" style="padding: 10px 20px;">Run Demo</button>
+                </div>
+                
+                <div class="grid-container">
+                    <div id="grid"></div>
+                </div>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color start-legend"></div>
+                        <span>Start Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color end-legend"></div>
+                        <span>End Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color wall-legend"></div>
+                        <span>Wall Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color visited-legend"></div>
+                        <span>Visited Node</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color path-legend"></div>
+                        <span>Path Node</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Path Finder Visualization &copy; 2023 | Graph Algorithms Demo</p>
+        </footer>
+    </div>
+
+    <script>
+        // Grid and algorithm state
+        const gridSize = 20;
+        let grid = [];
+        let startNode = { row: 5, col: 5 };
+        let endNode = { row: 14, col: 14 };
+        let selectedAlgorithm = 'bfs';
+        let isRunning = false;
+        let animationSpeed = 25;
+        let currentMode = 'addWall'; // 'setStart', 'setEnd', 'addWall'
+        
+        // Initialize the grid
+        function initializeGrid() {
+            const gridElement = document.getElementById('grid');
+            gridElement.innerHTML = '';
+            grid = [];
+            
+            for (let row = 0; row < gridSize; row++) {
+                const currentRow = [];
+                for (let col = 0; col < gridSize; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    // Set start and end nodes
+                    if (row === startNode.row && col === startNode.col) {
+                        cell.classList.add('start');
+                    } else if (row === endNode.row && col === endNode.col) {
+                        cell.classList.add('end');
+                    }
+                    
+                    cell.addEventListener('click', () => handleCellClick(row, col));
+                    gridElement.appendChild(cell);
+                    currentRow.push({
+                        row,
+                        col,
+                        isWall: false,
+                        isStart: row === startNode.row && col === startNode.col,
+                        isEnd: row === endNode.row && col === endNode.col,
+                        isVisited: false,
+                        isPath: false,
+                        previousNode: null,
+                        distance: Infinity
+                    });
+                }
+                grid.push(currentRow);
+            }
+        }
+        
+        // Handle cell click based on current mode
+        function handleCellClick(row, col) {
+            if (isRunning) return;
+            
+            const cell = grid[row][col];
+            
+            if (currentMode === 'setStart') {
+                // Remove previous start
+                grid[startNode.row][startNode.col].isStart = false;
+                document.querySelector(`.cell[data-row="${startNode.row}"][data-col="${startNode.col}"]`).classList.remove('start');
+                
+                // Set new start
+                startNode = { row, col };
+                cell.isStart = true;
+                document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`).classList.add('start');
+            } else if (currentMode === 'setEnd') {
+                // Remove previous end
+                grid[endNode.row][endNode.col].isEnd = false;
+                document.querySelector(`.cell[data-row="${endNode.row}"][data-col="${endNode.col}"]`).classList.remove('end');
+                
+                // Set new end
+                endNode = { row, col };
+                cell.isEnd = true;
+                document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`).classList.add('end');
+            } else if (currentMode === 'addWall') {
+                // Toggle wall
+                if (!cell.isStart && !cell.isEnd) {
+                    cell.isWall = !cell.isWall;
+                    document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`).classList.toggle('wall');
+                }
+            }
+        }
+        
+        // Reset the grid to initial state
+        function resetGrid() {
+            isRunning = false;
+            initializeGrid();
+        }
+        
+        // Clear walls from the grid
+        function clearWalls() {
+            if (isRunning) return;
+            
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    if (grid[row][col].isWall) {
+                        grid[row][col].isWall = false;
+                        document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`).classList.remove('wall');
+                    }
+                }
+            }
+        }
+        
+        // Run the selected algorithm
+        async function runAlgorithm() {
+            if (isRunning) return;
+            isRunning = true;
+            
+            // Reset visited and path states
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    grid[row][col].isVisited = false;
+                    grid[row][col].isPath = false;
+                    grid[row][col].previousNode = null;
+                    grid[row][col].distance = Infinity;
+                    
+                    const cellElement = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                    cellElement.classList.remove('visited', 'path');
+                }
+            }
+            
+            // Execute the selected algorithm
+            let pathFound = false;
+            
+            switch (selectedAlgorithm) {
+                case 'bfs':
+                    pathFound = await bfs();
+                    break;
+                case 'dfs':
+                    pathFound = await dfs();
+                    break;
+                case 'dijkstra':
+                    pathFound = await dijkstra();
+                    break;
+                case 'astar':
+                    pathFound = await aStar();
+                    break;
+            }
+            
+            // If path was found, visualize it
+            if (pathFound) {
+                await visualizePath();
+            }
+            
+            isRunning = false;
+        }
+        
+        // Breadth-First Search algorithm
+        async function bfs() {
+            const queue = [grid[startNode.row][startNode.col]];
+            grid[startNode.row][startNode.col].isVisited = true;
+            grid[startNode.row][startNode.col].distance = 0;
+            
+            const directions = [
+                [0, 1], [1, 0], [0, -1], [-1, 0] // right, down, left, up
+            ];
+            
+            while (queue.length > 0) {
+                const currentNode = queue.shift();
+                
+                // If we reached the end node
+                if (currentNode.row === endNode.row && currentNode.col === endNode.col) {
+                    return true;
+                }
+                
+                // Explore neighbors
+                for (const [dr, dc] of directions) {
+                    const newRow = currentNode.row + dr;
+                    const newCol = currentNode.col + dc;
+                    
+                    if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                        const neighbor = grid[newRow][newCol];
+                        
+                        if (!neighbor.isVisited && !neighbor.isWall) {
+                            neighbor.isVisited = true;
+                            neighbor.previousNode = currentNode;
+                            neighbor.distance = currentNode.distance + 1;
+                            queue.push(neighbor);
+                            
+                            // Visualize the visited node (skip start and end nodes)
+                            if (!(newRow === startNode.row && newCol === startNode.col) && 
+                                !(newRow === endNode.row && newCol === endNode.col)) {
+                                const cellElement = document.querySelector(`.cell[data-row="${newRow}"][data-col="${newCol}"]`);
+                                cellElement.classList.add('visited');
+                                await sleep(50 - animationSpeed);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Depth-First Search algorithm
+        async function dfs() {
+            const stack = [grid[startNode.row][startNode.col]];
+            grid[startNode.row][startNode.col].isVisited = true;
+            
+            const directions = [
+                [0, 1], [1, 0], [0, -1], [-1, 0] // right, down, left, up
+            ];
+            
+            while (stack.length > 0) {
+                const currentNode = stack.pop();
+                
+                // If we reached the end node
+                if (currentNode.row === endNode.row && currentNode.col === endNode.col) {
+                    return true;
+                }
+                
+                // Explore neighbors
+                for (const [dr, dc] of directions) {
+                    const newRow = currentNode.row + dr;
+                    const newCol = currentNode.col + dc;
+                    
+                    if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                        const neighbor = grid[newRow][newCol];
+                        
+                        if (!neighbor.isVisited && !neighbor.isWall) {
+                            neighbor.isVisited = true;
+                            neighbor.previousNode = currentNode;
+                            stack.push(neighbor);
+                            
+                            // Visualize the visited node (skip start and end nodes)
+                            if (!(newRow === startNode.row && newCol === startNode.col) && 
+                                !(newRow === endNode.row && newCol === endNode.col)) {
+                                const cellElement = document.querySelector(`.cell[data-row="${newRow}"][data-col="${newCol}"]`);
+                                cellElement.classList.add('visited');
+                                await sleep(50 - animationSpeed);
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Dijkstra's algorithm
+        async function dijkstra() {
+            const unvisitedNodes = [];
+            
+            // Initialize all nodes
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    grid[row][col].distance = Infinity;
+                    unvisitedNodes.push(grid[row][col]);
+                }
+            }
+            
+            grid[startNode.row][startNode.col].distance = 0;
+            
+            while (unvisitedNodes.length > 0) {
+                // Sort nodes by distance and get the closest one
+                unvisitedNodes.sort((a, b) => a.distance - b.distance);
+                const closestNode = unvisitedNodes.shift();
+                
+                // If the closest node is a wall, skip it
+                if (closestNode.isWall) continue;
+                
+                // If the closest node is at infinity, we're stuck
+                if (closestNode.distance === Infinity) return false;
+                
+                closestNode.isVisited = true;
+                
+                // Visualize the visited node (skip start and end nodes)
+                if (!(closestNode.row === startNode.row && closestNode.col === startNode.col) && 
+                    !(closestNode.row === endNode.row && closestNode.col === endNode.col)) {
+                    const cellElement = document.querySelector(`.cell[data-row="${closestNode.row}"][data-col="${closestNode.col}"]`);
+                    cellElement.classList.add('visited');
+                    await sleep(50 - animationSpeed);
+                }
+                
+                // If we reached the end node
+                if (closestNode.row === endNode.row && closestNode.col === endNode.col) {
+                    return true;
+                }
+                
+                // Update distances to neighbors
+                const directions = [
+                    [0, 1], [1, 0], [0, -1], [-1, 0] // right, down, left, up
+                ];
+                
+                for (const [dr, dc] of directions) {
+                    const newRow = closestNode.row + dr;
+                    const newCol = closestNode.col + dc;
+                    
+                    if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                        const neighbor = grid[newRow][newCol];
+                        
+                        if (!neighbor.isVisited && !neighbor.isWall) {
+                            const newDistance = closestNode.distance + 1;
+                            if (newDistance < neighbor.distance) {
+                                neighbor.distance = newDistance;
+                                neighbor.previousNode = closestNode;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // A* Search algorithm
+        async function aStar() {
+            const openSet = [grid[startNode.row][startNode.col]];
+            const closedSet = [];
+            
+            grid[startNode.row][startNode.col].distance = 0;
+            grid[startNode.row][startNode.col].fScore = heuristic(startNode, endNode);
+            
+            while (openSet.length > 0) {
+                // Find node with lowest fScore
+                openSet.sort((a, b) => a.fScore - b.fScore);
+                const currentNode = openSet.shift();
+                
+                // If we reached the end node
+                if (currentNode.row === endNode.row && currentNode.col === endNode.col) {
+                    return true;
+                }
+                
+                closedSet.push(currentNode);
+                currentNode.isVisited = true;
+                
+                // Visualize the visited node (skip start and end nodes)
+                if (!(currentNode.row === startNode.row && currentNode.col === startNode.col) && 
+                    !(currentNode.row === endNode.row && currentNode.col === endNode.col)) {
+                    const cellElement = document.querySelector(`.cell[data-row="${currentNode.row}"][data-col="${currentNode.col}"]`);
+                    cellElement.classList.add('visited');
+                    await sleep(50 - animationSpeed);
+                }
+                
+                // Check neighbors
+                const directions = [
+                    [0, 1], [1, 0], [0, -1], [-1, 0] // right, down, left, up
+                ];
+                
+                for (const [dr, dc] of directions) {
+                    const newRow = currentNode.row + dr;
+                    const newCol = currentNode.col + dc;
+                    
+                    if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
+                        const neighbor = grid[newRow][newCol];
+                        
+                        if (neighbor.isWall || closedSet.includes(neighbor)) {
+                            continue;
+                        }
+                        
+                        const tentativeGScore = currentNode.distance + 1;
+                        
+                        if (!openSet.includes(neighbor)) {
+                            openSet.push(neighbor);
+                        } else if (tentativeGScore >= neighbor.distance) {
+                            continue;
+                        }
+                        
+                        neighbor.previousNode = currentNode;
+                        neighbor.distance = tentativeGScore;
+                        neighbor.fScore = neighbor.distance + heuristic(
+                            { row: neighbor.row, col: neighbor.col }, 
+                            endNode
+                        );
+                    }
+                }
+            }
+            
+            return false;
+        }
+        
+        // Heuristic function for A* (Manhattan distance)
+        function heuristic(a, b) {
+            return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
+        }
+        
+        // Visualize the path from end to start
+        async function visualizePath() {
+            let currentNode = grid[endNode.row][endNode.col];
+            const path = [];
+            
+            while (currentNode !== null) {
+                path.unshift(currentNode);
+                currentNode = currentNode.previousNode;
+            }
+            
+            // Animate the path (skip start and end nodes)
+            for (let i = 1; i < path.length - 1; i++) {
+                const node = path[i];
+                node.isPath = true;
+                const cellElement = document.querySelector(`.cell[data-row="${node.row}"][data-col="${node.col}"]`);
+                cellElement.classList.add('path');
+                await sleep(50 - animationSpeed);
+            }
+        }
+        
+        // Utility function to sleep for a given time
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeGrid();
+            
+            // Algorithm selection
+            document.querySelectorAll('.algo-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.algo-btn').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    selectedAlgorithm = button.dataset.algo;
+                });
+            });
+            
+            // Set BFS as default selected algorithm
+            document.querySelector('.algo-btn[data-algo="bfs"]').classList.add('active');
+            
+            // Grid controls
+            document.getElementById('setStart').addEventListener('click', () => {
+                currentMode = 'setStart';
+            });
+            
+            document.getElementById('setEnd').addEventListener('click', () => {
+                currentMode = 'setEnd';
+            });
+            
+            document.getElementById('addWall').addEventListener('click', () => {
+                currentMode = 'addWall';
+            });
+            
+            document.getElementById('clearWalls').addEventListener('click', clearWalls);
+            document.getElementById('resetGrid').addEventListener('click', resetGrid);
+            
+            // Run demo button
+            document.getElementById('runDemo').addEventListener('click', runAlgorithm);
+            
+            // Speed control
+            document.getElementById('speedSlider').addEventListener('input', (e) => {
+                animationSpeed = parseInt(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html>
