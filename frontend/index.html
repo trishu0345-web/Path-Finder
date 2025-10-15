@@ -1,56 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Path Finder Visualization</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { background:#e2fdce; margin:0; font-family:Segoe UI,sans-serif; }
-    .centered { text-align:center; }
-    canvas {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(67,198,172,0.07);
-      margin: 20px auto 10px auto;
-      display: block;
-    }
-    button {
-      background: linear-gradient(90deg,#43c6ac 0%,#f8ffae 100%);
-      border: none;
-      padding: 12px 32px;
-      border-radius: 8px;
-      font-size: 1.2em;
-      font-weight: bold;
-      color: #222;
-      margin: 12px 0;
-      cursor: pointer;
-      box-shadow:0 2px 6px #0001;
-    }
-    button:hover { opacity: 0.85; }
-  </style>
-</head>
-<body>
-  <div class="centered" style="margin-top:36px;">
-    <h1>Breadth-First Search (BFS)</h1>
-    <button onclick="runBFS()">RUN DEMO (BFS)</button>
-    <canvas id="graph-canvas-bfs" width="500" height="260"></canvas>
-    <div id="bfs-output"></div>
-
-    <h1>Depth-First Search (DFS)</h1>
-    <button onclick="runDFS()">RUN DEMO (DFS)</button>
-    <canvas id="graph-canvas-dfs" width="500" height="260"></canvas>
-    <div id="dfs-output"></div>
-
-    <h1>Shortest Path</h1>
-    <button onclick="runShortestPath()">RUN DEMO (Shortest Path)</button>
-    <canvas id="graph-canvas-path" width="500" height="260"></canvas>
-    <div id="path-output"></div>
-
-    <h1>Dijkstra's Algorithm</h1>
-    <button onclick="runDijkstra()">RUN DEMO (Dijkstra's)</button>
-    <canvas id="graph-canvas-dijkstra" width="500" height="260"></canvas>
-    <div id="dijkstra-output"></div>
-  </div>
-  <script src="main.js"></script>
-</body>
-</html>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finder Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .controls {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .visualization {
+            flex: 2;
+            min-width: 500px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .algorithm-selector {
+            margin-bottom: 20px;
+        }
+        
+        .algorithm-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .algo-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .algo-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .algo-btn.active {
+            background: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.7);
+        }
+        
+        .grid-controls {
+            margin-bottom: 20px;
+        }
+        
+        .control-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .control-btn:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.reset {
+            background: #e74
